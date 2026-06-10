@@ -1,5 +1,5 @@
 # historoi
-contains inference codes for historoi, training data used for historoi and tcga-tissue dataset
+Contains inference codes for historoi, training data used for historoi and tcga-tissue dataset.
 
 
 This repository provides inference code for histoROI model.
@@ -31,6 +31,26 @@ Model weights can be downloaded from `weights` directory (set as default argumen
 A typical command line for running the inference looks like
 `python inference.py --wsis /path/to/wsis`
 
+
+## Output format
+
+Inference results can be exported as CSV and, optionally, as GeoJSON (`--vis`).
+
+Coordinates in both outputs correspond to patch centres in the level-0 (highest-resolution) coordinate system of the WSI.
+
+HistoROI classifies patches corresponding to a 256×256 pixel field of view at 10× magnification.
+
+### CSV
+
+| Column | Description |
+|----------|----------|
+| dim1 | X-coordinate of patch centre in level-0 WSI coordinates |
+| dim2 | Y-coordinate of patch centre in level-0 WSI coordinates |
+| preds | Predicted tissue class |
+
+### GeoJSON
+
+The GeoJSON output contains the same coordinates and predictions as the CSV output, grouped by predicted tissue class and stored as `MultiPoint` annotations.
 
 ## Citation
 
