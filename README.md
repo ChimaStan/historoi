@@ -44,7 +44,7 @@ CPU inference is supported when CUDA is unavailable or when --device cpu is used
 Clone the repository and create the conda environment:
 
 ```bash
-git clone https://github.com/ChimaStan/historoi.git
+git clone https://github.com/chimastan/historoi.git
 cd historoi
 
 conda env create -f environment.yml
@@ -65,7 +65,7 @@ docker pull ghcr.io/chimastan/historoi:latest
 
 Alternatively, build one locally:
 ```bash
-git clone https://github.com/ChimaStan/historoi.git
+git clone https://github.com/chimastan/historoi.git
 cd historoi
 
 docker build -t historoi .
