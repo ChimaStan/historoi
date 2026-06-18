@@ -1,0 +1,16 @@
+name: historoi
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - numpy=1.26.4
+  - pandas=2.2.3
+  - pillow=10.4.0
+  - tqdm=4.66.5
+  - openslide
+  - openslide-python
+  - pip
+  - pip:
+    - --index-url https://download.pytorch.org/whl/cu126
+    - torch==2.7.0
+    - torchvision==0.22.0
