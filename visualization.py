@@ -2,8 +2,7 @@ import json
 import pandas as pd
 from pathlib import Path
 
-
-def make_geojson(csv_path):
+def make_geojson(csv_path, output_dir):
     colors = {
         'Artefact': -65536,
         'Stroma': -16776961,
@@ -40,7 +39,7 @@ def make_geojson(csv_path):
         "features": features
     }
 
-    out_path = Path("visualizations")
+    out_path = Path(output_dir)
     out_path.mkdir(parents=True, exist_ok=True)
     out_file = out_path / f"{Path(csv_path).stem}.geojson"
 
