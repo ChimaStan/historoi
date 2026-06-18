@@ -63,6 +63,8 @@ Pull the Docker image (recommended):
 docker pull ghcr.io/chimastan/historoi:latest
 ```
 
+If pulling the public GHCR image returns `denied`, Docker may be using stale or insufficient GHCR credentials. Run `docker logout ghcr.io` and retry the pull command.
+
 Alternatively, build one locally:
 ```bash
 git clone https://github.com/chimastan/historoi.git
