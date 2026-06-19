@@ -129,7 +129,7 @@ singularity exec \
   -B /path/to/results:/data/results \
   historoi_latest.sif \
   bash -lc '
-    cd /app/grandqc
+    cd /app/historoi
 
     python inference.py \
       --wsis "/data/wsis/*.svs" \
@@ -146,7 +146,7 @@ singularity exec --nv \
   -B /path/to/results:/data/results \
   historoi_latest.sif \
   bash -lc '
-    cd /app/grandqc
+    cd /app/historoi
 
     python inference.py \
       --wsis "/data/wsis/*.svs" \
