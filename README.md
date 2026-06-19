@@ -65,20 +65,12 @@ docker pull ghcr.io/chimastan/historoi:latest
 
 If pulling the public GHCR image returns `denied`, Docker may be using stale or insufficient GHCR credentials. Run `docker logout ghcr.io` and retry the pull command.
 
-Alternatively, build one locally:
-```bash
-git clone https://github.com/chimastan/historoi.git
-cd historoi
-
-docker build -t historoi .
-```
-
 #### Singularity / Apptainer
 
 Pull the image from the Docker registry and convert it to a Singularity/Apptainer image:
 
 ```bash
-singularity pull historoi.sif docker://ghcr.io/chimastan/historoi:latest
+singularity pull historoi_latest.sif docker://ghcr.io/chimastan/historoi:latest
 ```
 
 ## How to run
@@ -107,7 +99,7 @@ Run inference with Docker:
 docker run --rm -it \
   -v /path/to/wsis:/data/wsis:ro \
   -v /path/to/results:/data/results \
-  historoi \
+  ghcr.io/chimastan/historoi:latest \
   python inference.py \
     --wsis "/data/wsis/*.svs" \
     --output_dir /data/results \
@@ -120,17 +112,11 @@ For NVIDIA GPU support, run the container with `--gpus all`:
 docker run --rm -it --gpus all \
   -v /path/to/wsis:/data/wsis:ro \
   -v /path/to/results:/data/results \
-  historoi \
+  ghcr.io/chimastan/historoi:latest \
   python inference.py \
     --wsis "/data/wsis/*.svs" \
     --output_dir /data/results \
     --device auto
-```
-
-If using a pulled image rather than a locally built one, replace `historoi` with:
-
-```text
-ghcr.io/chimastan/historoi:latest
 ```
 
 #### Singularity / Apptainer
@@ -141,11 +127,15 @@ Run inference with Singularity:
 singularity exec \
   -B /path/to/wsis:/data/wsis \
   -B /path/to/results:/data/results \
-  historoi.sif \
-  python inference.py \
-    --wsis "/data/wsis/*.svs" \
-    --output_dir /data/results \
-    --device auto
+  historoi_latest.sif \
+  bash -lc '
+    cd /app/grandqc
+
+    python inference.py \
+      --wsis "/data/wsis/*.svs" \
+      --output_dir /data/results \
+      --device auto
+  '
 ```
 
 For NVIDIA GPU support, add `--nv`:
@@ -154,11 +144,15 @@ For NVIDIA GPU support, add `--nv`:
 singularity exec --nv \
   -B /path/to/wsis:/data/wsis \
   -B /path/to/results:/data/results \
-  historoi.sif \
-  python inference.py \
-    --wsis "/data/wsis/*.svs" \
-    --output_dir /data/results \
-    --device auto
+  historoi_latest.sif \
+  bash -lc '
+    cd /app/grandqc
+
+    python inference.py \
+      --wsis "/data/wsis/*.svs" \
+      --output_dir /data/results \
+      --device auto
+  '
 ```
 
 To run with Apptainer, use the keyword `apptainer` in place of `singularity`.
@@ -207,7 +201,7 @@ docker run --rm -it --gpus all \
   -v /path/to/wsis:/data/wsis:ro \
   -v /path/to/masks:/data/masks:ro \
   -v /path/to/results:/data/results \
-  historoi \
+  ghcr.io/chimastan/historoi:latest \
   python inference.py \
     --wsis "/data/wsis/*.svs" \
     --output_dir /data/results \
