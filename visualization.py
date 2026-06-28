@@ -1,17 +1,10 @@
 import json
 import pandas as pd
 from pathlib import Path
+from class_labels import CLASS_COLORS_RGB
 
 def make_geojson(csv_path, output_dir):
-    colors = {
-        'Artefact': -65536,
-        'Stroma': -16776961,
-        'Epithelial': -16711681,
-        'Adipose': -65281,
-        'Miscelleneous': -16777216,
-        'Lymphocytes': -15053542
-    }
-    
+
     df = pd.read_csv(csv_path)
 
     features = []
@@ -27,7 +20,7 @@ def make_geojson(csv_path, output_dir):
                 "object_type": "annotation",
                 "classification": {
                     "name": label,
-                    "colorRGB": colors[label]
+                    "colorRGB": CLASS_COLORS_RGB[label]
                 },
                 "isLocked": False
             }
@@ -45,3 +38,5 @@ def make_geojson(csv_path, output_dir):
 
     with open(out_file, "w") as f:
         json.dump(geojson, f, indent=4)
+    
+    return out_file
