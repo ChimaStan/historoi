@@ -89,6 +89,59 @@ def infer_options():
         action="store_true",
     )
 
+    parser.add_argument(
+        "--export_pred_polygons",
+        help=(
+            "Export HistoROI predictions as patch-footprint polygon GeoJSON in "
+            "level-0 WSI coordinates. If patch footprints overlap, export is "
+            "controlled by --overlap_policy."
+        ),
+        action="store_true",
+    )
+
+    parser.add_argument(
+        "--export_pred_mask",
+        help=(
+            "Export HistoROI predictions as a hard class mask PNG plus metadata "
+            "JSON. If patch footprints overlap, overlapping mask pixels are "
+            "resolved according to --overlap_policy."
+        ),
+        action="store_true",
+    )
+
+    parser.add_argument(
+        "--mask_ds",
+        help=(
+            "Downsample factor for --export_pred_mask relative to level 0. "
+            "Use 1 for full level-0 mask output. Default: 16."
+        ),
+        type=float,
+        default=16.0,
+        metavar="FACTOR",
+    )
+
+    parser.add_argument(
+        "--overlap_policy",
+        help=(
+            "Policy used when HistoROI patch footprints overlap during "
+            "prediction-derived output export. This option is only used when "
+            "--export_pred_polygons and/or --export_pred_mask is set. "
+            "'error' stops export if overlaps are present, preventing ambiguous "
+            "polygon or mask outputs. "
+            "'allow_raw' allows raw overlapping polygon GeoJSON export only; this "
+            "is useful for visual inspection but may be unsafe for downstream "
+            "rasterisation. "
+            "'retain_first' keeps the first prediction assigned to each mask pixel. "
+            "'retain_last' lets later predictions overwrite earlier mask pixels. "
+            "'highest_prob' assigns each overlapping mask pixel to the prediction "
+            "with the highest probability for its predicted class. "
+            "The retain/highest_prob policies apply only to --export_pred_mask. "
+            "Default: error."
+        ),
+        choices=["error", "allow_raw", "retain_first", "retain_last", "highest_prob"],
+        default="error",
+    )
+
     args = parser.parse_args()
 
     if args.mask_labels is not None and args.mask_path is None:
